@@ -1,20 +1,26 @@
 package com.renejm.LiterAlura.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renejm.LiterAlura.model.*;
+import org.json.JSONArray;
 
-public class BuscarRegistrar {
-    Libro libro;
-    DatosLibro datosLibro;
-    Autor autor;
+import java.util.ArrayList;
+import java.util.List;
+
+public class BuscarRegistrar{
+    SolicitarDatos solicitarDatos = new SolicitarDatos();
+    ConvertirDatos conversor = new ConvertirDatos();
     DatosAutor datosAutor;
-    public void buscarRegistrar(JsonResultado datos){
-        if (!(datos.libro().isEmpty())){
-            datosLibro = datos.libro().getFirst();
-            datosAutor = datosLibro.autor().getFirst();
 
-            System.out.println(datos);
-        }else{
-            System.out.println("El libro no fue encontrado");
-        }
+    public DatosLibro getDatosLibro() {
+        var json = solicitarDatos.obtenerDatos();
+        System.out.println(json);
+        DatosLibro datosLibro = conversor.obtenerDatos(json, DatosLibro.class);
+        System.out.println(datosLibro);
+        return datosLibro;
     }
+
+
+
 }

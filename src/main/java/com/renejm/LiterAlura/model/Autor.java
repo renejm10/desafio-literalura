@@ -16,15 +16,31 @@ public class Autor {
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Libro> libro;
 
-    public Autor() {}
-
     public Autor(DatosAutor autor) {
         this.birth_year = autor.birth_year();
         this.death_year = autor.death_year();
         this.nombre = autor.nombre();
     }
 
+    public Autor() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Libro> getLibro() {
+        return libro;
+    }
+
+    public void setLibro(List<Libro> libro) {
+        this.libro = libro;
+    }
 
     public Integer getBirth_year() {
         return birth_year;
@@ -55,7 +71,6 @@ public class Autor {
         return
                 "birth_year=" + birth_year +
                 ", death_year=" + death_year +
-                ", nombre='" + nombre + '\'' +
-                ", libro=" + libro;
+                ", nombre='" + nombre + '\'';
     }
 }

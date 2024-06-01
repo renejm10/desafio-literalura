@@ -13,26 +13,28 @@ public class Libro {
     private String titulo;
     @ManyToOne
     private Autor autor;
+    @Enumerated(EnumType.STRING)
     private Idiomas idioma;
     private Integer descargas;
 
-    public Libro(DatosLibro datos, Autor autor) {
+    public Libro(DatosLibro datos) {
         this.titulo = datos.titulo();
         this.autor = autor;
-        this.idioma = Idiomas.fromString(String.valueOf(datos.idioma()));
+        this.idioma = Idiomas.fromString(datos.idioma().getFirst());
         this.descargas = datos.descargas();
 
     }
 
-    public Libro(JsonResultado datos) {
+
+    public Libro() {}
+
+    public Long getId() {
+        return id;
     }
 
-    public Libro() {
-
+    public void setId(Long id) {
+        this.id = id;
     }
-
-
-
 
     public String getTitulo() {
         return titulo;

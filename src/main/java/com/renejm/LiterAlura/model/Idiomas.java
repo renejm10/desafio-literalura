@@ -2,7 +2,7 @@ package com.renejm.LiterAlura.model;
 
 public enum Idiomas {
     INGLES("en"),
-    ESPANOL("es"),
+    ESPAÑOL("es"),
     FRANCES("fr");
 
     private String idiomasLibros;
