@@ -1,9 +1,17 @@
 package com.renejm.LiterAlura.principal;
 
+import com.renejm.LiterAlura.model.DatosLibro;
+import com.renejm.LiterAlura.model.JsonResultado;
+import com.renejm.LiterAlura.model.Libro;
+import com.renejm.LiterAlura.service.ConvertirDatos;
+import com.renejm.LiterAlura.service.SolicitarDatos;
+
 import java.util.Scanner;
 
 public class Principal {
-        Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
+    SolicitarDatos solicitarDatos = new SolicitarDatos();
+    ConvertirDatos conversor = new ConvertirDatos();
     public void menu(){
         var opcion = -1;
         while(opcion != 0){
@@ -18,11 +26,12 @@ public class Principal {
                     0 - SALIR
                     """;
             System.out.println(menu);
+            System.out.println("Ingrese una opcion: ");
             opcion = sc.nextInt();
 
             switch (opcion){
                 case 1:
-
+                    buscarRegistrar();
                     break;
                 case 2:
 
@@ -45,4 +54,19 @@ public class Principal {
             }
         }
     }
+
+    private JsonResultado getDatosLibro(){
+        var json = solicitarDatos.obtenerDatos();
+        System.out.println(json);
+        JsonResultado resultado = conversor.obtenerDatos(json, JsonResultado.class);
+        return resultado;
+    }
+
+    private void buscarRegistrar() {
+        JsonResultado datos = getDatosLibro();
+
+
+        System.out.println(datos);
+    }
+
 }
