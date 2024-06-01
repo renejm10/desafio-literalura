@@ -64,7 +64,7 @@ public class Principal {
 
     private void buscarRegistrar() {
         JsonResultado datos = getDatosLibro();
-
+        Libro libro = new Libro(datos);
 
         System.out.println(datos);
     }

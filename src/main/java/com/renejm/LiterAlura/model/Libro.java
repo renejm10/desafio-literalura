@@ -1,19 +1,33 @@
 package com.renejm.LiterAlura.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name="Libros")
 public class Libro {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
-    private List<Autor> autor;
+    @ManyToOne
+    private Autor autor;
     private Idiomas idioma;
     private Integer descargas;
 
-    public Libro(DatosLibro datos, List<Autor> autor) {
+    public Libro(DatosLibro datos, Autor autor) {
         this.titulo = datos.titulo();
         this.autor = autor;
         this.idioma = Idiomas.fromString(String.valueOf(datos.idioma()));
         this.descargas = datos.descargas();
+
+    }
+
+    public Libro(JsonResultado datos) {
+    }
+
+    public Libro() {
 
     }
 
@@ -26,11 +40,11 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public List<Autor> getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
-    public void setAutor(List<Autor> autor) {
+    public void setAutor(Autor autor) {
         this.autor = autor;
     }
 
