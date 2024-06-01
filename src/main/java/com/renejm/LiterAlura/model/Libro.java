@@ -32,6 +32,8 @@ public class Libro {
     }
 
 
+
+
     public String getTitulo() {
         return titulo;
     }

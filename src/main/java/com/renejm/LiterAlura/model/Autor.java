@@ -24,6 +24,8 @@ public class Autor {
         this.nombre = autor.nombre();
     }
 
+
+
     public Integer getBirth_year() {
         return birth_year;
     }
