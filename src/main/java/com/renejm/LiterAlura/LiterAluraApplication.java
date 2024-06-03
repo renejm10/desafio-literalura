@@ -2,7 +2,6 @@ package com.renejm.LiterAlura;
 
 import com.renejm.LiterAlura.principal.Principal;
 import com.renejm.LiterAlura.repositorio.ILibroRepositorio;
-import com.renejm.LiterAlura.service.BuscarRegistrar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

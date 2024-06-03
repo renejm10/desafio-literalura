@@ -1,17 +1,23 @@
 package com.renejm.LiterAlura.principal;
 
-import com.renejm.LiterAlura.model.*;
+import com.renejm.LiterAlura.model.Autor;
+import com.renejm.LiterAlura.model.DatosAutor;
+import com.renejm.LiterAlura.model.DatosLibro;
+import com.renejm.LiterAlura.model.Libro;
 import com.renejm.LiterAlura.repositorio.ILibroRepositorio;
-import com.renejm.LiterAlura.service.BuscarRegistrar;
-import com.renejm.LiterAlura.service.ConvertirDatos;
-import com.renejm.LiterAlura.service.SolicitarDatos;
+import com.renejm.LiterAlura.service.Buscar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
 
 public class Principal {
     Scanner sc = new Scanner(System.in);
-    BuscarRegistrar buscarRegistro = new BuscarRegistrar();
+    Buscar buscarRegistro = new Buscar();
+    List<Libro>libros = new ArrayList<>();
     private ILibroRepositorio repositorio;
 
 
@@ -65,9 +71,26 @@ public class Principal {
 
     private void buscarRegistrar() {
         DatosLibro datosLibro = buscarRegistro.getDatosLibro();
-        Libro libro = new Libro(datosLibro);
-        repositorio.save(libro);
+        DatosAutor datosAutor = buscarRegistro.getDatosAutor();
+        Autor autor = new Autor(datosAutor);
+        Libro libro = new Libro(autor, datosLibro);
+
+        List<Libro>libroLista = new ArrayList<>();
+        libroLista.add(libro);
+        autor.setLibro(libroLista);
+
+        System.out.println(autor);
+        System.out.println(libro);
+        repositorio.save(autor);
+
+
+
+
+
+
     }
+
+
 
 
 }

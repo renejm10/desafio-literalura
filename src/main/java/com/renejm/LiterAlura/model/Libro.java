@@ -17,7 +17,7 @@ public class Libro {
     private Idiomas idioma;
     private Integer descargas;
 
-    public Libro(DatosLibro datos) {
+    public Libro(Autor autor,DatosLibro datos) {
         this.titulo = datos.titulo();
         this.autor = autor;
         this.idioma = Idiomas.fromString(datos.idioma().getFirst());
@@ -72,7 +72,7 @@ public class Libro {
     public String toString() {
         return
                 "titulo='" + titulo + '\'' +
-                ", autores=" + autor +
+                ", autores=" + autor.getNombre() +
                 ", idioma=" + idioma +
                 ", descargas=" + descargas;
     }
