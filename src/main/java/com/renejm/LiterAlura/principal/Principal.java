@@ -48,13 +48,13 @@ public class Principal {
                     buscarRegistrar();
                     break;
                 case 2:
-
+                    librosRegistrados();
                     break;
                 case 3:
-
+                    autoresRegistrados();
                     break;
                 case 4:
-
+                    autoresVivos();
                     break;
                 case 5:
 
@@ -67,6 +67,29 @@ public class Principal {
                     break;
             }
         }
+    }
+
+    private void autoresVivos() {
+        System.out.println("Ingrese en que rango de años desea ver los autores vivos");
+        System.out.println("Ingrese año inicial de rango: ");
+        int year = sc.nextInt();
+//        System.out.println("Ingrese año final de rango: ");
+//        int yearFinal = sc.nextInt();
+        List<Autor> autorVivo = repositorio.buscarAutorVivo(year);
+        autorVivo.forEach(System.out::println);
+    }
+
+    private void autoresRegistrados() {
+        List<Autor> autores = repositorio.findAll();
+        autores.stream()
+                .forEach(System.out::println);
+    }
+
+    private void librosRegistrados() {
+        List<Autor>librosRegistrados = repositorio.findAll();
+        librosRegistrados.stream()
+                .map(l -> l.getLibro())
+                .forEach(System.out::println);
     }
 
     private void buscarRegistrar() {
@@ -82,11 +105,6 @@ public class Principal {
         System.out.println(autor);
         System.out.println(libro);
         repositorio.save(autor);
-
-
-
-
-
 
     }
 
