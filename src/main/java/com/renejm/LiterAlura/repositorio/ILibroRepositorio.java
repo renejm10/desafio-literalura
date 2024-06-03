@@ -24,6 +24,9 @@ public interface ILibroRepositorio extends JpaRepository<Autor, Long> {
     @Query("SELECT l from Autor a JOIN a.libro l WHERE l.idioma = :idioma")
     List<Libro>buscarPorIdioma(Idiomas idioma);
 
+    @Query("select l FROM Autor a JOIN a.libro l order by l.descargas LIMIT 10")
+    List<Libro>top10Libros();
+
 
 }
 

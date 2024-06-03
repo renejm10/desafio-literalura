@@ -28,7 +28,7 @@ public class Principal {
         while(opcion != 0){
             var menu="";
             menu = """
-                    1 - Buscar y Registrar Libro por Titulo
+                    \n1 - Buscar y Registrar Libro por Titulo
                     2 - Libros Registrados
                     3 - Autores Registrados
                     4 - Autores Vivos en Determinado Año
@@ -142,7 +142,8 @@ public class Principal {
     }
 
     private void top10libros(){
-
+        List<Libro>top10Libros = repositorio.top10Libros();
+        top10Libros.forEach(System.out::println);
     }
 
 
