@@ -1,9 +1,6 @@
 package com.renejm.LiterAlura.principal;
 
-import com.renejm.LiterAlura.model.Autor;
-import com.renejm.LiterAlura.model.DatosAutor;
-import com.renejm.LiterAlura.model.DatosLibro;
-import com.renejm.LiterAlura.model.Libro;
+import com.renejm.LiterAlura.model.*;
 import com.renejm.LiterAlura.repositorio.ILibroRepositorio;
 import com.renejm.LiterAlura.service.Buscar;
 
@@ -36,7 +33,7 @@ public class Principal {
                     3 - Autores Registrados
                     4 - Autores Vivos en Determinado Año
                     5 - Libros por idioma
-                    6 - Top 5 Libros mas descargados
+                    6 - Top 10 Libros mas descargados
                     0 - SALIR
                     """;
             System.out.println(menu);
@@ -45,7 +42,7 @@ public class Principal {
 
             switch (opcion){
                 case 1:
-                    buscarRegistrar();
+                    buscar();
                     break;
                 case 2:
                     librosRegistrados();
@@ -57,10 +54,10 @@ public class Principal {
                     autoresVivos();
                     break;
                 case 5:
-
+                    libroIdioma();
                     break;
                 case 6:
-
+                    top10libros();
                     break;
                 default:
                     System.out.println("Ingreso una opcion incorrecta!, Vuelva a elegir una opcion.\n");
@@ -69,45 +66,84 @@ public class Principal {
         }
     }
 
-    private void autoresVivos() {
-        System.out.println("Ingrese en que rango de años desea ver los autores vivos");
-        System.out.println("Ingrese año inicial de rango: ");
-        int year = sc.nextInt();
-//        System.out.println("Ingrese año final de rango: ");
-//        int yearFinal = sc.nextInt();
-        List<Autor> autorVivo = repositorio.buscarAutorVivo(year);
-        autorVivo.forEach(System.out::println);
+    private void buscar() {
+        DatosLibro datosLibro = buscarRegistro.getDatosLibro();
+        DatosAutor datosAutor = buscarRegistro.getDatosAutor();
+        List<Libro>libroLista = new ArrayList<>();
+        Autor autor = null;
+        Libro libro = null;
+
+        Optional<Autor>buscaAutor = repositorio.findByNombre(datosAutor.nombre());
+        if(!(buscaAutor.isPresent())){
+            autor = new Autor(datosAutor);
+            libro = new Libro(autor,datosLibro);
+            libroLista.add(libro);
+            autor.setLibro(libroLista);
+            repositorio.save(autor);
+            System.out.println(libro);
+        }else {
+            Optional<Libro>buscaLibro = repositorio.buscarPorTitulo(datosLibro.titulo());
+            if(!(buscaLibro.isPresent())){
+                autor = buscaAutor.get();
+                libro = new Libro(autor,datosLibro);
+                libroLista.add(libro);
+                autor.setLibro(libroLista);
+                repositorio.save(autor);
+                System.out.println(libro);
+                System.out.println("Se registro exitosamente en la base de datos!");
+            }else {
+                System.out.println("Titulo: " + libro.getTitulo() + " Autores: " + datosAutor.nombre() +
+                        " Idioma: " + datosLibro.idioma() + " Descargas: " + datosLibro.descargas());
+                System.out.println("El libro ya existe en la base de datos");
+            }
+        }
+
     }
+
+//    private void registrar() {
+//        DatosLibro datosLibro = buscarRegistro.getDatosLibro();
+//        DatosAutor datosAutor = buscarRegistro.getDatosAutor();
+////        Autor autor = new Autor(datosAutor);
+////        Libro libro = new Libro(autor, datosLibro);
+////        List<Libro>libroLista = new ArrayList<>();
+////        libroLista.add(libro);
+////        autor.setLibro(libroLista);
+////
+////        System.out.println(autor);
+////        System.out.println(libro);
+////        repositorio.save(autor);
+//    }
 
     private void autoresRegistrados() {
         List<Autor> autores = repositorio.findAll();
-        autores.stream()
-                .forEach(System.out::println);
+        autores.forEach(System.out::println);
     }
 
     private void librosRegistrados() {
         List<Autor>librosRegistrados = repositorio.findAll();
         librosRegistrados.stream()
-                .map(l -> l.getLibro())
+                .map(Autor::getLibro)
                 .forEach(System.out::println);
     }
 
-    private void buscarRegistrar() {
-        DatosLibro datosLibro = buscarRegistro.getDatosLibro();
-        DatosAutor datosAutor = buscarRegistro.getDatosAutor();
-        Autor autor = new Autor(datosAutor);
-        Libro libro = new Libro(autor, datosLibro);
-
-        List<Libro>libroLista = new ArrayList<>();
-        libroLista.add(libro);
-        autor.setLibro(libroLista);
-
-        System.out.println(autor);
-        System.out.println(libro);
-        repositorio.save(autor);
-
+    private void autoresVivos() {
+        System.out.println("Ingrese en que rango de años desea ver los autores vivos: ");
+        int year = sc.nextInt();
+        List<Autor> autorVivo = repositorio.buscarAutorVivo(year);
+        autorVivo.forEach(System.out::println);
     }
 
+    private void libroIdioma() {
+        System.out.println("Ingrese el idioma del cual quisiera ver libros: ");
+        var idioma = sc.next();
+        var lang = Idiomas.fromString(idioma);
+        List<Libro> libroIdioma = repositorio.buscarPorIdioma(lang);
+        libroIdioma.forEach(System.out::println);
+    }
+
+    private void top10libros(){
+
+    }
 
 
 

@@ -12,6 +12,7 @@ public class Autor {
     private Long id;
     private Integer birth_year;
     private Integer death_year;
+    @Column(unique = true)
     private String nombre;
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Libro> libro;
